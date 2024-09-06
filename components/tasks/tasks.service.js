@@ -143,6 +143,14 @@ const deleteTasks = async (id) => {
       },
     );
 
+    if (metadata.rowCount === 0) {
+      return {
+        status: 404,
+        code: 0,
+        message: 'No se eliminó ninguna tarea, puede que no exista o esté en estado P',
+      };
+    }
+
     return {
       status: 200, code: 1, message: 'Success',
     };
