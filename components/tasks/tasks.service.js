@@ -10,6 +10,7 @@ const tasks = async () => {
         description AS "description",
         status AS "status"
       from PUBLIC.tasks 
+      ORDER BY id
         `,
       {
         replacements: {
@@ -54,6 +55,9 @@ const createTasks = async (task) => {
     };
   } catch (err) {
     console.log(err)
+    if (err?.original?.code === '23505') {
+      return { status: 406, code: 3, message: 'Exists' };
+    }
     return { status: 500, code: 2, message: 'Error' };
   }
 };
@@ -89,6 +93,9 @@ const updateTasks = async (id, task) => {
     };
   } catch (err) {
     console.log(err)
+    if (err?.original?.code === '23505') {
+      return { status: 406, code: 3, message: 'Exists' };
+    }
     return { status: 500, code: 2, message: 'Error' };
   }
 };

@@ -6,3 +6,6 @@ CREATE TABLE public.tasks (
 	log JSONB,
 	constraint pk_public_tasks_id primary key (id)
 );
+
+ALTER TABLE public.tasks
+ADD CONSTRAINT unique_title UNIQUE (title);
