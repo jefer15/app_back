@@ -8,11 +8,8 @@ const login = async (user) => {
       `
       SELECT 
         id AS "id",
-        NAME AS "name",
-        last_name AS "lastName",
-        email AS "email",
         identification AS "identification"
-      FROM user
+      FROM public.user
       WHERE identification = :identification AND password = :password
        `,
       {
@@ -38,6 +35,7 @@ const login = async (user) => {
       },
     };
   } catch (err) {
+    console.log(err)
     return { status: 500, code: 3, message: 'Error' };
   }
 };
