@@ -36,7 +36,7 @@ const createTasks = async (task) => {
       log)
       VALUES (:title,
         :description,
-        JSON_OBJECT(
+        jsonb_build_object(
           'createdAt', NOW(),
           'timeLastChange', NOW()
         ) );
@@ -67,9 +67,9 @@ const updateTasks = async (id, task) => {
       UPDATE public.tasks
       SET
       title = :title,
-      description = :description
+      description = :description,
       log = jsonb_build_object(
-        'createdAt',cast(log->>'createdAt' AS varchar),
+        'createdAt',log->>'createdAt',
         'timeLastChange',now()
       )
       WHERE
@@ -101,7 +101,7 @@ const updateStatusTasks = async (id, status) => {
 
       UPDATE public.tasks
       SET
-      status = :status
+      status = :status,
       log = jsonb_build_object(
         'createdAt',cast(log->>'createdAt' AS varchar),
         'timeLastChange',now()
