@@ -5,5 +5,6 @@ CREATE TABLE public.user (
     last_name VARCHAR(50),
     email VARCHAR(100) UNIQUE,
     password VARCHAR(255) NOT NULL,
+    log JSONB,
     CONSTRAINT pk_public_user_id PRIMARY KEY (id) 
 );
