@@ -16,10 +16,10 @@ const register = async (user) => {
         :lastName,
         :email,
         :password,
-        JSON_OBJECT(
-          'createdAt', NOW(),
-          'timeLastChange', NOW()
-        ) );
+        jsonb_build_object(
+        'createdAt', NOW(),
+        'timeLastChange', NOW()
+      ) );
         `,
       {
         replacements: {
