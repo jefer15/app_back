@@ -6,6 +6,8 @@ const router = express.Router();
 router.post('/register', userController.register);
 
 router.use(mdAuth.ensureAuth);
-router.post('', userController.findAll);
+router.get('', userController.findAll);
+router.put('/:id', userController.updateUser);
+router.delete('/:id', userController.deleteUser);
 
 module.exports = router;

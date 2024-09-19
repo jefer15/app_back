@@ -7,14 +7,26 @@ const register = async (req, res) => {
 };
 
 const findAll = async (req, res) => {
-  const page = req.query.page || 1; // Obtener el parámetro 'page' de la consulta, si no está presente, establecerlo en 1
-  const pageSize = req.query.pageSize || 5;
-  const searchText = req.query.searchText || '';
-  const result = await userService.findAll(page, pageSize, searchText);
+  const result = await userService.findAll();
   res.status(result.status).json(result);
 };
 
+const updateUser = async (req, res) => {
+  const id = req.params.id;
+  const user  = req.body;
+  const result = await userService.updateUser(id, user);
+  res.status(result.status).json(result);
+}
+
+const deleteUser = async (req, res) => {
+  const id = req.params.id;
+  const result = await userService.deleteUser(id);
+  res.status(result.status).json(result);
+}
+
 module.exports = {
   register,
-  findAll
+  findAll,
+  updateUser,
+  deleteUser
 }
