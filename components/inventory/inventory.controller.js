@@ -7,7 +7,7 @@ const inventories = async (req, res) => {
 
 const createInventory = async (req, res) => {
   const inventory = req.body;
-  const result = await inventoryService.createInventory(inventory);
+  const result = await inventoryService.saveInventary(inventory);
   res.status(result.status).json(result);
 };
 

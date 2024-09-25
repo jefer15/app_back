@@ -6,16 +6,18 @@ const inventories = async () => {
     const [results, metadata] = await sequelizeResolve.query(
       `
         SELECT 
-          id AS "id",
-          id_organization AS "idOrganization",
-          transaction_type AS "transactionType",
-          quantity AS "quantity",
-          unit_price AS "unitPrice",
-          total_value AS "totalValue",
-          description AS "description",
-          mark AS "mark",
-          transaction_date AS "transactionDate"
-        FROM PUBLIC.inventory_transactions
+          it.id AS "id",
+          it.id_organization AS "idOrganization",
+          it.transaction_type AS "transactionType",
+          it.quantity AS "quantity",
+          it.unit_price AS "unitPrice",
+          it.total_value AS "totalValue",
+          it.description AS "description",
+          it.mark AS "mark",
+          it.transaction_date AS "transactionDate",
+          o.name AS "nameOrganization"
+        FROM PUBLIC.inventory_transactions it
+        JOIN PUBLIC.organizations o ON it.id_organization = o.id
         ORDER BY id
           `,
       {
@@ -31,6 +33,15 @@ const inventories = async () => {
     console.log(err)
     return { status: 500, code: 2, message: 'Error' };
   }
+};
+
+const saveInventary = async (inventory) => {
+  for (let i = 0; i < inventory.length; i++) {
+    inventory[i] = await createInventory(inventory[i]);
+  }
+  return {
+    status: 200, code: 1, message: 'Success', data: inventory
+  };
 };
 
 const createInventory = async (inventory) => {
@@ -64,6 +75,7 @@ const createInventory = async (inventory) => {
         replacements: {
           idOrganization: inventory.idOrganization,
           transactionType: inventory.transactionType,
+          quantity: inventory.quantity,
           unitPrice: inventory.unitPrice,
           address: inventory.address,
           description: inventory.description,
@@ -78,14 +90,11 @@ const createInventory = async (inventory) => {
     };
   } catch (err) {
     console.log(err)
-    if (err?.original?.code === '23505') {
-      return { status: 406, code: 3, message: 'Exists' };
-    }
     return { status: 500, code: 2, message: 'Error' };
   }
 };
 
 module.exports = {
   inventories,
-  createInventory
+  saveInventary
 }
