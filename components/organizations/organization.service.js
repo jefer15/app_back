@@ -41,9 +41,10 @@ const createOrganization = async (organization) => {
         contact_email,
         phone,
         address,
-        type
+        type,
         log)
         VALUES (
+          :name,
           :contactPerson,
           :contactEmail,
           :phone,
