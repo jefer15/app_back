@@ -49,11 +49,11 @@ const createInventory = async (inventory) => {
     const sequelizeResolve = await sequelize;
     const [results, metadata] = await sequelizeResolve.query(
       `
-        INSERT INTO public.organizations (id_organization,
+        INSERT INTO public.inventory_transactions (
+        id_organization,
         transaction_type,
         quantity,
         unit_price,
-        address,
         description,
         mark,
         transaction_date,
@@ -61,8 +61,8 @@ const createInventory = async (inventory) => {
         VALUES (
           :idOrganization,
           :transactionType,
+          :quantity,
           :unitPrice,
-          :address,
           :description,
           :mark,
           :transactionDate,
@@ -77,7 +77,6 @@ const createInventory = async (inventory) => {
           transactionType: inventory.transactionType,
           quantity: inventory.quantity,
           unitPrice: inventory.unitPrice,
-          address: inventory.address,
           description: inventory.description,
           mark: inventory.mark,
           transactionDate: inventory.transactionDate
